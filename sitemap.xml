@@ -3,22 +3,54 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.aiastro.top/archives/</loc>
+    <loc>https://www.aiastro.top/categories/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.aiastro.top/categories/</loc>
+    <loc>https://www.aiastro.top/tags/hugo/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/post/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.aiastro.top/tags/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/tags/%E5%BB%BA%E7%AB%99/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/2019/07/building-website/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/categories/%E6%97%A5%E5%BF%97/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.aiastro.top/</loc>
+    <lastmod>2019-07-06T00:48:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/archives/</loc>
     <priority>0</priority>
   </url>
   
