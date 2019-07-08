@@ -6,10 +6,50 @@
     <description>Recent content in 数据处理 on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 07 Jul 2019 12:17:24 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 08 Jul 2019 11:22:17 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>组合特征</title>
+      <link>https://www.aiastro.top/2019/07/%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81/</link>
+      <pubDate>Mon, 08 Jul 2019 11:22:17 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;在很多实际问题中，常常需要面对多种高维特征。若简单进行两两组合，依然会存在参数过多、过拟合等问题，并且不是所有的特征组合都是有意义的。因此需要一种有效的方法来帮助自己找到应该对哪些特征进行组合。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>高维组合特征的处理</title>
+      <link>https://www.aiastro.top/2019/07/%E9%AB%98%E7%BB%B4%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81%E7%9A%84%E5%A4%84%E7%90%86/</link>
+      <pubDate>Mon, 08 Jul 2019 09:26:16 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/%E9%AB%98%E7%BB%B4%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81%E7%9A%84%E5%A4%84%E7%90%86/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;关于组合特征的处理&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>类别型特征</title>
@@ -17,7 +57,18 @@
       <pubDate>Sun, 07 Jul 2019 12:17:24 +0800</pubDate>
       
       <guid>https://www.aiastro.top/2019/07/%E7%B1%BB%E5%88%AB%E5%9E%8B%E7%89%B9%E5%BE%81/</guid>
-      <description>&lt;p&gt;类别型特征(Categorical Feature)主要是指性别(男、女)、血型(A、B、AB、O)等只有在有限选项内取值的特征。类别型特征原始输入通常是字符串形式，除了决策树等少数模型能直接处理字符串形式的输入，对于逻辑回归、SVM等模型来说，类别型特征必须经过处理转换成数值型特征才能正确工作。&lt;/p&gt;</description>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;类别型特征(Categorical Feature)主要是指性别(男、女)、血型(A、B、AB、O)等只有在有限选项内取值的特征。类别型特征原始输入通常是字符串形式，除了决策树等少数模型能直接处理字符串形式的输入，对于逻辑回归、SVM等模型来说，类别型特征必须经过处理转换成数值型特征才能正确工作。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -26,8 +77,18 @@
       <pubDate>Sat, 06 Jul 2019 11:06:19 +0800</pubDate>
       
       <guid>https://www.aiastro.top/2019/07/%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/</guid>
-      <description>&lt;p&gt;关于特征归一化的笔记
-&lt;script type=&#34;text/javascript&#34; src=&#34;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&#34;&gt;&lt;/script&gt;&lt;/p&gt;</description>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;关于特征归一化的笔记&lt;/p&gt;</description>
     </item>
     
   </channel>
