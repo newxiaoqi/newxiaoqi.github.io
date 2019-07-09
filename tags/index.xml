@@ -6,10 +6,46 @@
     <description>Recent content in Tags on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 08 Jul 2019 14:04:36 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 09 Jul 2019 10:38:29 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A.A.C.斯温顿</title>
+      <link>https://www.aiastro.top/tags/a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF/</link>
+      <pubDate>Tue, 09 Jul 2019 10:38:29 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>物理</title>
+      <link>https://www.aiastro.top/tags/%E7%89%A9%E7%90%86/</link>
+      <pubDate>Tue, 09 Jul 2019 10:38:29 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E7%89%A9%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据处理</title>
+      <link>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</link>
+      <pubDate>Tue, 09 Jul 2019 09:51:00 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>特征</title>
+      <link>https://www.aiastro.top/tags/%E7%89%B9%E5%BE%81/</link>
+      <pubDate>Tue, 09 Jul 2019 09:51:00 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E7%89%B9%E5%BE%81/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>1869-1930</title>
@@ -35,24 +71,6 @@
       <pubDate>Mon, 08 Jul 2019 14:04:36 +0800</pubDate>
       
       <guid>https://www.aiastro.top/tags/%E5%A4%A9%E6%96%87/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>数据处理</title>
-      <link>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</link>
-      <pubDate>Mon, 08 Jul 2019 11:22:17 +0800</pubDate>
-      
-      <guid>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>特征</title>
-      <link>https://www.aiastro.top/tags/%E7%89%B9%E5%BE%81/</link>
-      <pubDate>Mon, 08 Jul 2019 11:22:17 +0800</pubDate>
-      
-      <guid>https://www.aiastro.top/tags/%E7%89%B9%E5%BE%81/</guid>
       <description></description>
     </item>
     
