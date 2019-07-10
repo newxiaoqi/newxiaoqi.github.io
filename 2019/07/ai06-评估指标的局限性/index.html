@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.6 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="努力学习AI的Qi">
+<meta name="keywords" content="准确率, 精确率, 召回率, 均方根误差">
+<meta name="description" content="
+
+
+
+在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。">
+
+
+<meta property="og:description" content="
+
+
+
+在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI06 评估指标的局限性">
+<meta name="twitter:title" content="AI06 评估指标的局限性">
+<meta property="og:url" content="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+<meta property="twitter:url" content="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+<meta property="og:site_name" content="记录科学，记录技术，记录生活。">
+<meta property="og:description" content="
+
+
+
+在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。">
+<meta name="twitter:description" content="
+
+
+
+在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-07-10T09:33:48">
+  
+  
+    <meta property="article:modified_time" content="2019-07-10T09:33:48">
+  
+  
+  
+    
+      <meta property="article:section" content="模型评估">
+    
+  
+  
+    
+      <meta property="article:tag" content="模型">
+    
+      <meta property="article:tag" content="评估">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+  <meta property="twitter:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+
+
+    <title>AI06 评估指标的局限性</title>
+
+    <link rel="icon" href="https://www.aiastro.top/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://www.aiastro.top/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://www.aiastro.top/">记录科学，记录技术，记录生活。</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://www.aiastro.top/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://www.aiastro.top/#about">
+          <img class="sidebar-profile-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">努力学习AI的Qi</h4>
+        
+          <h5 class="sidebar-profile-bio">很<strong>COOL</strong>的个人博客喔！</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      AI06 评估指标的局限性
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-07-10T09:33:48&#43;08:00">
+        
+  七月 10, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://www.aiastro.top/categories/%e6%a8%a1%e5%9e%8b%e8%af%84%e4%bc%b0">模型评估</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。</p>
+
+<p><strong>准确率(Accuracy)的局限性;</strong></p>
+
+<p>Q1：奢侈品广告主希望把广告定向投放给奢侈品用户。公司通过第三方数据管理平台(Data Mnangement Platform, DMP)拿到了一部分奢侈品用户的数据，并以此为训练集和测试集，训练和测试奢侈品用户的分类模型。该模型的分类准确率超过了95%，但在实际广告投放过程中，该模型还是把大部分广告投给了非奢侈品用户，这可能是什么原因？</p>
+
+<p>A1：先说准确率的定义。准确率是指分类正确的样本占总样本个数的比例，即：</p>
+
+<div style="margin-top:20px" align=center>$$Accuracy = \frac{n_{correct}}{n_{total}}$$</div>
+
+<p>其中$n_{correct}$为被正确分类的样本个数，$n_{total}$为总样本的个数。</p>
+
+<p>准确率是分类问题中最简单也是最直观的评价指标，但存在明显的缺陷。比如，当负样本占99%时，分类器把所有样本都预测为负样本也可以获得99%的准确率。所以，当不同类别的样本比例非常不均衡时，占比大的类别往往成为影响准确率的最主要因素。</p>
+
+<p>显然，在上述问题中，奢侈品用户只占公司全体用户的一小部分，虽然模型的整体分类准确率高，但不代表对奢侈品用户的分类准确率也很高。在线上投放过程中，系统只会对模型判定的“奢侈品用户”进行投放，因此，对“奢侈品用户”判定的准确率不够高的问题就被放大了。为解决此问题，可以使用更有效的平均准确率（每个类别下的样本准确率的算术平均）作为模型评估的指标。</p>
+
+<p>此问题为开放问题，因为产生这种问题的因素有很多，比如模型过拟合或欠拟合、测试集和训练集的划分是否合理，线下评估与线上测试样本分布存在差异等，但评估指标的选择是最容易被发现，也是最可能影响评估结果的因素。</p>
+
+<p><strong>精确率(Precision)与召回率(Recall)的权衡;</strong></p>
+
+<p>Q2:公司提供视频的模糊搜索功能，搜索排序模型返回的Top5的精确率非常高，但在实际使用过程中，用户还是经常找不到想要的视频，特别是一些比较冷门的剧集，这可能是哪个环节出了问题？</p>
+
+<p>A2：首先明确两个概念，精确率和召回率。精确率是指分类正确的正样本个数占分类器判定为正样本的样本个数的比例。召回率是指分类正确的正样本个数占真正的正样本个数的比例。</p>
+
+<p>在排序问题中，通常没有一个确定的阈值把得到的结果直接判定为正样本或负样本，而是采用TopN返回结果的Precision值和Recall值来衡量排序模型的性能，即认为模型返回的TopN的结果就是模型判定的正样本，然后计算前N个位置上的Precision@N和前N个位置上的召回率Recall@N。</p>
+
+<p>Precison值和Recall值是既矛盾又统一的两个指标，为了提高Precison值，分类器需要尽量在“更有把握”时才把样本预测为正样本，但此时往往会因为过于保守而漏掉很多“没有把握”的正样本，导致Recall值降低。</p>
+
+<p>回到问题，模型返回的Precision@5的结果非常好，也就是说排序模型Top5的返回值质量很高。但在实际应用过程中，用户为了找一些冷门视频，往往会寻找排在较靠后位置的结果，甚至翻页去查找目标视频。但根据题目描述，用户经常找不到想要的视频，这说明模型没有把相关的视频都找出来呈现给用户。显然，问题出在召回率上。若相关结果有100个，即使Precision@5达到了100%，Recall@5也只是5%。</p>
+
+<p>在模型评估时，是否应该同时关注Precision值和Recall值？是否应该选取不同的TopN的结果进行观察？是否应该选取更高阶的评估指标来更全面地反映模型在Precision值和Recall值两方面的表现？</p>
+
+<p>答案都是肯定的，为了综合评估一个排序模型的好坏，不仅要看模型在不同TopN下的Precision@N和Recall@N，而且最好绘制出模型的P-R(Precision-Recall)曲线。</p>
+
+<p>P-R曲线的横轴是召回率，纵轴是精确率。对于一个排序模型来说，其P-R曲线上的一个点代表在某一阈值下，模型将大于该阈值的结果判定为正样本，小于该阈值的结果判定为负样本，此时返回结果对应的召回率和精确率。整条P-R曲线是通过将阈值从高到低移动而生成的。下图是P-R曲线样例图，其中实线代表模型A的P-R曲线，虚线代表模型B的P-R曲线。原点附近代表当阈值最大时模型的精确率和召回率。</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/07/10/Z6OW8O.jpg"></div>
+
+<p>由图可见，当召回率接近于0时，模型A的精确率为0.9，模型B的精确率是1，这说明模型B得分前几位的样本全部是真正的正样本，而模型A即使得分最高的几个样本也存在预测错误的情况。并且，随着召回率的增加，精确率整体呈下降趋势。但是，当召回率为1时，模型A的精确率反而超过了模型B。这充分说明之用某个点对应的精确率和召回率是不能全面地衡量模型性能，只有通过P-R曲线的整体表现才能够对模型进行更为全面的评估。</p>
+
+<p>除此之外，F1 score和ROC曲线也能综合地反映一个排序模型的性能。F1 score是精准率和召回率的调和平均值，它定义为：</p>
+
+<p>$$F1 = \frac{2 * precision * recall}{precision * recall}$$</p>
+
+<p><strong>均方根误差(Root Mean Square Error, RMSE)的“意外”；</strong></p>
+
+<p>Q3：作为一家流媒体公司，拥有众多美剧资源，预测每部美剧的流量趋势对于广告投放、用户增长都非常重要。公司希望构建一个回归模型来预测某部美剧的流量趋势，但无论采取哪种回归模型，得到的RMSE指标都非常高。然而事实是，模型在95%的时间区间内的预测误差都小于1%，取得了相当不错的预测结果。那么，造成RMSE指标居高不下的最可能的原因是什么？</p>
+
+<p>A3：RMSE经常被用来衡量回归模型的好坏，但按照题目的叙述，RMSE这个指标却失效了。RMSE的计算公式为：</p>
+
+<p>$$RMSE = \sqrt{\frac{\sum_{i=1}^{n}{(y_i - \hat{y}_i)^2}}{n}}$$</p>
+
+<p>其中，$y_i$是第i个样本点的真实值，$\hat{y}_i$是第i个样本点的预测值，n是样本点的个数。</p>
+
+<p>一般情况下，RMSE能够很好地反映回归模型预测值与真实值的偏离程度。但在实际问题中，如果存在个别偏离程度非常大的离群点(Outlier)时，即使离群点数量非常少，也会让RMSE指标变得很差。</p>
+
+<p>回到问题，模型在95%的时间区间内的预测误差都小于1%，这说明在大部分时间区间内，模型的预测效果都是非常优秀的。然而，RMSE却一直很差，这很可能是由于在其他的5%时间区间内存在非常严重的离群点。事实上，在流量预估这个问题中，噪声点确实是很容易产生的，比如流量特别小的美剧、刚上映的美剧或者刚获奖的美剧，甚至一些相关社交媒体突发事件带来的流量，都可能会造成离群点。</p>
+
+<p>针对这个问题，解决方案有三个角度。第一，如果认定这些离群点是“噪声点”的话，就需要在数据预处理的阶段把这些噪声点过滤掉。第二，如果不认为这些离群点是“噪声点”的话，就需要进一步提高模型的预测能力，将离群点产生的机制建模进去。第三，可以找一个更合适的指标来评估该模型。关于评估指标，其实是存在RMSE的鲁棒性更好的指标，比如平均绝对百分比误差(Mean Absolute Percent Error, MAPE)，它定义为：</p>
+
+<p>$$MAPE = \sum_{i=1}^{n}|\frac{y_i - \hat{y}_i}{y_i}| * \frac{100}{n}$$</p>
+
+<p>相比RMSE，MAPE相当于把每个点的误差进行了归一化，降低了个别离群点带来的绝对误差的影响。</p>
+
+<p>每个评估指标都有其价值，但如果只从单一的评估指标出发去评估模型，往往会得出片面甚至错误的结果；只有通过一组互补的指标去评估模型，才能更好地发现并解决模型存在的问题，从而更好地解决实际业务场景中遇到的问题。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/%E6%A8%A1%E5%9E%8B/">模型</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/%E8%AF%84%E4%BC%B0/">评估</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" data-tooltip="AI07 图像数据不足时的处理方法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8702-%E4%BC%A6%E7%90%B4%E6%95%99%E6%8E%88%E7%9A%84%E5%8F%91%E7%8E%B0-a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF-1896/" data-tooltip="论文02 伦琴教授的发现  --A.A.C.斯温顿 --1896">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 努力学习AI的Qi. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" data-tooltip="AI07 图像数据不足时的处理方法">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8702-%E4%BC%A6%E7%90%B4%E6%95%99%E6%8E%88%E7%9A%84%E5%8F%91%E7%8E%B0-a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF-1896/" data-tooltip="论文02 伦琴教授的发现  --A.A.C.斯温顿 --1896">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+    
+    <h4 id="about-card-name">努力学习AI的Qi</h4>
+    
+      <div id="about-card-bio">很<strong>COOL</strong>的个人博客喔！</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        AI炼金术师，科学史爱好者
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        湖南，长沙
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">AI07 图像数据不足时的处理方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在机器学习中，绝大部分模型都需要大量的数据进行训练和学习（包括有监督学习和无监督学习），然而在实际应用中经常会遇到训练数据不足的问题。不如图像分类，作为计算机视觉最基本的任务之一，其目标是将每副图像划分到指定类别集合中的一个或多个类别中。当训练一个图像分类模型时，如果训练样本比较少，该如何处理？</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+                <h3 class="media-heading">AI06 评估指标的局限性</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8702-%E4%BC%A6%E7%90%B4%E6%95%99%E6%8E%88%E7%9A%84%E5%8F%91%E7%8E%B0-a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF-1896/">
+                <h3 class="media-heading">论文02 伦琴教授的发现  --A.A.C.斯温顿 --1896</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><em>距离伦琴最初宣布发现X射线还不到一个月，就有了这篇对伦琴的发现的查证，这是一个应该引起人们警醒的事例，它表明科学界同行对重大发现的态度也会是冷淡的。坎贝尔一斯温顿含蓄地指出，报业为之感到兴奋的现象实际上并不是一个“全新的”现象。但他之所以这样说是因为他在某种程度上误会了伦琴得到的结论。斯温顿坚持把X射线看作是“阴极射线的一部分”，并指出人们早就知道阴极射线能够用于拍摄照片，可他没有注意到伦琴所称的X射线根本就不是阴极射线。</em></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai05-%E6%96%87%E5%AD%97%E8%A1%A8%E7%A4%BA%E6%A8%A1%E5%9E%8B/">
+                <h3 class="media-heading">AI05 文字表示模型</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+文本是一类非常重要的非结构化数据，如何表示文本数据一直是机器学习领域的一个重要研究方向。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8701-%E5%A4%AA%E9%98%B3%E7%9A%84%E7%87%83%E6%96%99-j.j.%E5%A2%A8%E8%8F%B2-1870/">
+                <h3 class="media-heading">论文01 太阳的燃料 --J.J.墨菲 --1870</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><em><p>“约瑟夫·约翰·墨菲在这篇文章中列举理由以证明不断陨落的流星在地质时间尺度中一直在维持着太阳的热度。他说，这种类似于流星的现象曾经被人观察到过，据说有两个像流星一样的天体亮得可以在日面上显现出来，在消失前它们从太阳的东边移动到西边。墨菲说、如果流星以固定的数量不断地落到太阳上，它们就会像太阳系中的所有其他天体一样，围绕太阳自西向东运动，在太阳的赤道附近数量比较集中，以至于使这些区域的温度高于两极。墨菲的观点当然是错误的，现在大家都知道太阳的能量来自核聚变反应，但是从他的推理中我们可以看出人们曾被这个难题深深困扰过。”</p></em></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai04-%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81/">
+                <h3 class="media-heading">AI04 组合特征</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>在很多实际问题中，常常需要面对多种高维特征。若简单进行两两组合，依然会存在参数过多、过拟合等问题，并且不是所有的特征组合都是有意义的。因此需要一种有效的方法来帮助自己找到应该对哪些特征进行组合。</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai03-%E9%AB%98%E7%BB%B4%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81%E7%9A%84%E5%A4%84%E7%90%86/">
+                <h3 class="media-heading">AI03 高维组合特征的处理</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>关于组合特征的处理</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai02-%E7%B1%BB%E5%88%AB%E5%9E%8B%E7%89%B9%E5%BE%81/">
+                <h3 class="media-heading">AI02 类别型特征</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>类别型特征(Categorical Feature)主要是指性别(男、女)、血型(A、B、AB、O)等只有在有限选项内取值的特征。类别型特征原始输入通常是字符串形式，除了决策树等少数模型能直接处理字符串形式的输入，对于逻辑回归、SVM等模型来说，类别型特征必须经过处理转换成数值型特征才能正确工作。</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai01-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/">
+                <h3 class="media-heading">AI01 特征归一化</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>关于特征归一化的笔记</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/building-website/">
+                <h3 class="media-heading">建站01 建站的心路历程</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p>这是一篇关于搭建本站踩到的一些坑的记录和心路历程。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         10 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://www.aiastro.top/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://www.aiastro.top/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.aiastro.top\/2019\/07\/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7\/';
+          
+            this.page.identifier = '\/2019\/07\/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'newxiaoqi';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

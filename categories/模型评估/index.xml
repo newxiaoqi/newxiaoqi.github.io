@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>模型评估 on 记录科学，记录技术，记录生活。</title>
+    <link>https://www.aiastro.top/categories/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/</link>
+    <description>Recent content in 模型评估 on 记录科学，记录技术，记录生活。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 10 Jul 2019 14:00:23 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aiastro.top/categories/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI07 图像数据不足时的处理方法</title>
+      <link>https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 10 Jul 2019 14:00:23 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+
+&lt;p&gt;在机器学习中，绝大部分模型都需要大量的数据进行训练和学习（包括有监督学习和无监督学习），然而在实际应用中经常会遇到训练数据不足的问题。不如图像分类，作为计算机视觉最基本的任务之一，其目标是将每副图像划分到指定类别集合中的一个或多个类别中。当训练一个图像分类模型时，如果训练样本比较少，该如何处理？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>AI06 评估指标的局限性</title>
+      <link>https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/</link>
+      <pubDate>Wed, 10 Jul 2019 09:33:48 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+
+&lt;p&gt;在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
