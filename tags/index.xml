@@ -6,10 +6,28 @@
     <description>Recent content in Tags on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 10 Jul 2019 14:00:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jul 2019 09:29:41 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>P-R曲线</title>
+      <link>https://www.aiastro.top/tags/p-r%E6%9B%B2%E7%BA%BF/</link>
+      <pubDate>Thu, 11 Jul 2019 09:29:41 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/p-r%E6%9B%B2%E7%BA%BF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ROC曲线</title>
+      <link>https://www.aiastro.top/tags/roc%E6%9B%B2%E7%BA%BF/</link>
+      <pubDate>Thu, 11 Jul 2019 09:29:41 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/roc%E6%9B%B2%E7%BA%BF/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>图像</title>

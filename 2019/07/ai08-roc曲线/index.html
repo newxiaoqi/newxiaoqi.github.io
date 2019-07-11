@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.6 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="努力学习AI的Qi">
+<meta name="keywords" content="ROC曲线">
+<meta name="description" content="
+
+
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。">
+
+
+<meta property="og:description" content="
+
+
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI08 ROC曲线">
+<meta name="twitter:title" content="AI08 ROC曲线">
+<meta property="og:url" content="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+<meta property="twitter:url" content="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+<meta property="og:site_name" content="记录科学，记录技术，记录生活。">
+<meta property="og:description" content="
+
+
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。">
+<meta name="twitter:description" content="
+
+
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-07-11T09:29:41">
+  
+  
+    <meta property="article:modified_time" content="2019-07-11T09:29:41">
+  
+  
+  
+    
+      <meta property="article:section" content="模型评估">
+    
+  
+  
+    
+      <meta property="article:tag" content="P-R曲线">
+    
+      <meta property="article:tag" content="ROC曲线">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+  <meta property="twitter:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+
+
+    <title>AI08 ROC曲线</title>
+
+    <link rel="icon" href="https://www.aiastro.top/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://www.aiastro.top/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://www.aiastro.top/">记录科学，记录技术，记录生活。</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://www.aiastro.top/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://www.aiastro.top/#about">
+          <img class="sidebar-profile-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">努力学习AI的Qi</h4>
+        
+          <h5 class="sidebar-profile-bio">很<strong>COOL</strong>的个人博客喔！</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      AI08 ROC曲线
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-07-11T09:29:41&#43;08:00">
+        
+  七月 11, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://www.aiastro.top/categories/%e6%a8%a1%e5%9e%8b%e8%af%84%e4%bc%b0">模型评估</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。</p>
+
+<p><strong>ROC曲线</strong></p>
+
+<p>ROC曲线是Receiver Operating Characteristic Curve的简称，中文名为“受试者工作特征曲线”。</p>
+
+<p>ROC曲线的横坐标为假阳性率(False Positive Rate,FPR);纵坐标为真阳性率(True Positive Rate,TPR)。FPR和TPR的计算方法分别为：</p>
+
+<p>$$FPR = \frac{FP}{N}$$</p>
+
+<p>$$TPR = \frac{TP}{P}$$</p>
+
+<p>在上式中，
+$P$是真实的正样本数量，$N$是真实的负样本数量，$TP$是$P$个正样本中被分类器预测为正样本的个数，$FP$是$N$个负样本中被分类器预测为正样本的个数。</p>
+
+<p>举一个看病的例子。假设有10个疑似癌症患者，其中三位确实得了癌症($P=3$)，另外7人不是癌症患者($N=7$)。医院对这10人做了诊断，诊断出3位癌症患者，其中有2人是真实的癌症患者($TP=2$)。那么真阳性率$TPR=\frac{TP}{P}=\frac{2}{3}$。对于7位非癌症患者来说，有1位被医院误诊为癌症患者($FP=1$)，那么假阳性率$FPR=\frac{FP}{N}=\frac{1}{7}$。对于“医院”这个分类器来说，这组结果就对应ROC曲线上的一个点($\frac{1}{7},\frac{2}{3}$)。</p>
+
+<p><strong>绘制ROC曲线</strong></p>
+
+<p>事实上，ROC曲线是通过不断移动分类器的“截断点”来生成曲线上的一组关键点。</p>
+
+<p>在二值分类问题中，模型的输出一般都是预测样本为正例的概率。假设测试集中有20个样本，下表为模型输出的结果。</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/07/11/Z2k9oT.jpg"></div>
+
+<p>样本按照预测概率从高到低排序。在输出最终的正例、负例之前，我们需要制定一个阈值，预测概率大于该阈值的样本会被判为正例，小于该阈值的样本则会判为负例。比如，指定阈值为0.9，那么只有第一个样本会被预测为正例，其他全部都是负例。之前说的截断点指的就是区分正负预测结果的阈值。</p>
+
+<p>通过动态调整截断点，从最高的得分开始(实际上是从正无穷开始，对应着ROC曲线的零点)，逐渐调整到最低得分，每一个截断点都会对应一个$FPR$和$TPR$，在ROC图上绘制出每个截断点对应的位置，再连接所有点就得到最终的ROC曲线。</p>
+
+<p>在本例中，当截断点选择为正无穷时，模型把全部样本预测为负例，那么$FP$和$TP$必然都是0，$FPR$和$TPR$也都为0，因此曲线的第一个坐标点就是(0,0)。当吧截断点调整为0.9时，模型预测1号样本为正样本，并且该样本确实是正样本，因此，$TP=1$，20个样本中，所有正例数量为$P=10$，故$TPR=\frac{TP}{P}=\frac{1}{10}$；这里没有预测错的正样本，即$FP=0$，负样本总数$N=10$，故$FPR=\frac{FP}{N}=\frac{0}{10}=0$，对应ROC曲线上的点(0,0.1)。依次调整截断点，直到画出全部的关键点，再连接关键点即得到最终的ROC曲线。</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/07/11/Z2DgDH.jpg"></div>
+
+<p>还有一种更直观地绘制ROC曲线的方法。首先，根据样本标签统计出正负样本的数量，假设正样本数量为$P$，负样本数量为$N$；接下来，把横轴的刻度间隔设置为$\frac{1}{N}$，纵轴的刻度间隔设置为$\frac{1}{P}$；再根据模型输出的预测概率对样本进行排序(从高到低)；依次遍历样本，同时从零点开始绘制ROC曲线，每遇到一个正样本就沿纵轴方向绘制出一个刻度间隔的曲线，每遇到一个负样本就沿横轴方向绘制出一个刻度间隔的曲线，直到遍历完所有样本，曲线最终停在(1,1)这个点，整个ROC曲线绘制完成。</p>
+
+<p><strong>计算AUC</strong></p>
+
+<p>AUC指的是ROC曲线下的面积大小，该值能够量化地反映基于ROC曲线衡量出的模型性能。计算AUC值值需要沿着ROC横轴做积分就可以了。由于ROC曲线一般都处于$y=x$这条直线的上方(若不是的话，只需要把模型预测的概率翻转成$1-p$就可以得到一个更好的分类器)，所以AUC的取值一般在0.5 ~ 1之间。AUC越大，说明分类器越可能把真正的样本排在前面，分类性能越好。</p>
+
+<p><strong>ROC曲线与P-R曲线相比的特点</strong></p>
+
+<div style="float:left; width:50%;"><img src="https://s2.ax1x.com/2019/07/11/Z2s16U.jpg"></div>
+<div style="float:right; width:50%;"><img src="https://s2.ax1x.com/2019/07/11/Z2s3XF.jpg"></div>
+<div style="float:left; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/11/Z2sGm4.jpg"></div>
+<div style="float:right; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/11/Z2s01K.jpg"></div>
+
+<p>相比P-R曲线，ROC曲线有一个特点，当正负样本的分布发生变化时，ROC曲线的形状能够基本保持不变，而P-R曲线的形状一般都会发生较剧烈的变化。</p>
+
+<p>这个特点让ROC曲线能够尽量降低不同测试集带来的干扰，更加客观地衡量模型本身的性能。实际意义在于，很多实际问题中，正负样本数量往往很不均衡。比如，计算广告领域经常涉及转化率模型，正样本的数量往往是负样本数量的$\frac{1}{1000}$甚至$\frac{1}{10000}$。若选择不同的测试集，P-R曲线的变化就会非常大，而ROC曲线则能够更加稳定地反映模型本身的好坏。所以，ROC曲线的适用场景更多，被广泛用于排序、推荐、广告等领域。但需要注意，选择P-R曲线还是ROC曲线是因实际问题而异的，如果希望更多地看到模型在特定数据集上的表现，P-R曲线则能更直观地反映其性能。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/p-r%E6%9B%B2%E7%BA%BF/">P-R曲线</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/roc%E6%9B%B2%E7%BA%BF/">ROC曲线</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" data-tooltip="AI07 图像数据不足时的处理方法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 努力学习AI的Qi. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/" data-tooltip="AI07 图像数据不足时的处理方法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+    
+    <h4 id="about-card-name">努力学习AI的Qi</h4>
+    
+      <div id="about-card-bio">很<strong>COOL</strong>的个人博客喔！</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        AI炼金术师，科学史爱好者
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        湖南，长沙
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+                <h3 class="media-heading">AI08 ROC曲线</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">AI07 图像数据不足时的处理方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在机器学习中，绝大部分模型都需要大量的数据进行训练和学习（包括有监督学习和无监督学习），然而在实际应用中经常会遇到训练数据不足的问题。不如图像分类，作为计算机视觉最基本的任务之一，其目标是将每副图像划分到指定类别集合中的一个或多个类别中。当训练一个图像分类模型时，如果训练样本比较少，该如何处理？</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+                <h3 class="media-heading">AI06 评估指标的局限性</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8702-%E4%BC%A6%E7%90%B4%E6%95%99%E6%8E%88%E7%9A%84%E5%8F%91%E7%8E%B0-a.a.c.%E6%96%AF%E6%B8%A9%E9%A1%BF-1896/">
+                <h3 class="media-heading">论文02 伦琴教授的发现  --A.A.C.斯温顿 --1896</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><em>距离伦琴最初宣布发现X射线还不到一个月，就有了这篇对伦琴的发现的查证，这是一个应该引起人们警醒的事例，它表明科学界同行对重大发现的态度也会是冷淡的。坎贝尔一斯温顿含蓄地指出，报业为之感到兴奋的现象实际上并不是一个“全新的”现象。但他之所以这样说是因为他在某种程度上误会了伦琴得到的结论。斯温顿坚持把X射线看作是“阴极射线的一部分”，并指出人们早就知道阴极射线能够用于拍摄照片，可他没有注意到伦琴所称的X射线根本就不是阴极射线。</em></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai05-%E6%96%87%E5%AD%97%E8%A1%A8%E7%A4%BA%E6%A8%A1%E5%9E%8B/">
+                <h3 class="media-heading">AI05 文字表示模型</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+文本是一类非常重要的非结构化数据，如何表示文本数据一直是机器学习领域的一个重要研究方向。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E8%AE%BA%E6%96%8701-%E5%A4%AA%E9%98%B3%E7%9A%84%E7%87%83%E6%96%99-j.j.%E5%A2%A8%E8%8F%B2-1870/">
+                <h3 class="media-heading">论文01 太阳的燃料 --J.J.墨菲 --1870</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><em><p>“约瑟夫·约翰·墨菲在这篇文章中列举理由以证明不断陨落的流星在地质时间尺度中一直在维持着太阳的热度。他说，这种类似于流星的现象曾经被人观察到过，据说有两个像流星一样的天体亮得可以在日面上显现出来，在消失前它们从太阳的东边移动到西边。墨菲说、如果流星以固定的数量不断地落到太阳上，它们就会像太阳系中的所有其他天体一样，围绕太阳自西向东运动，在太阳的赤道附近数量比较集中，以至于使这些区域的温度高于两极。墨菲的观点当然是错误的，现在大家都知道太阳的能量来自核聚变反应，但是从他的推理中我们可以看出人们曾被这个难题深深困扰过。”</p></em></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai04-%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81/">
+                <h3 class="media-heading">AI04 组合特征</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>在很多实际问题中，常常需要面对多种高维特征。若简单进行两两组合，依然会存在参数过多、过拟合等问题，并且不是所有的特征组合都是有意义的。因此需要一种有效的方法来帮助自己找到应该对哪些特征进行组合。</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai03-%E9%AB%98%E7%BB%B4%E7%BB%84%E5%90%88%E7%89%B9%E5%BE%81%E7%9A%84%E5%A4%84%E7%90%86/">
+                <h3 class="media-heading">AI03 高维组合特征的处理</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>关于组合特征的处理</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai02-%E7%B1%BB%E5%88%AB%E5%9E%8B%E7%89%B9%E5%BE%81/">
+                <h3 class="media-heading">AI02 类别型特征</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>类别型特征(Categorical Feature)主要是指性别(男、女)、血型(A、B、AB、O)等只有在有限选项内取值的特征。类别型特征原始输入通常是字符串形式，除了决策树等少数模型能直接处理字符串形式的输入，对于逻辑回归、SVM等模型来说，类别型特征必须经过处理转换成数值型特征才能正确工作。</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai01-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/">
+                <h3 class="media-heading">AI01 特征归一化</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+<p>关于特征归一化的笔记</p></p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         11 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://www.aiastro.top/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://www.aiastro.top/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.aiastro.top\/2019\/07\/ai08-roc%E6%9B%B2%E7%BA%BF\/';
+          
+            this.page.identifier = '\/2019\/07\/ai08-roc%E6%9B%B2%E7%BA%BF\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'newxiaoqi';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
