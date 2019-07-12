@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>样本距离 on 记录科学，记录技术，记录生活。</title>
+    <link>https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/</link>
+    <description>Recent content in 样本距离 on 记录科学，记录技术，记录生活。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 12 Jul 2019 09:39:10 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI09 余弦距离的应用</title>
+      <link>https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/</link>
+      <pubDate>Fri, 12 Jul 2019 09:39:10 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+
+&lt;p&gt;在模型训练过程中，在不断地评估着样本间的距离，如何评估样本距离也是定义优化目标和训练方法的基础。&lt;/p&gt;
+
+&lt;p&gt;在机器学习问题中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常使用余弦相似度来表示。余弦相似度的取值范围是$[-1,1]$，相同的两个向量之间的相似度为1.如果希望得到类似于距离的表示，将1减去余弦相似度即为余弦距离。因此，余弦距离的取值范围为$[0,2]$，相同的两个向量余弦距离为0。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
