@@ -7,20 +7,54 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.55.6 with theme Tranquilpeak 0.4.3-SNAPSHOT">
 <meta name="author" content="努力学习AI的Qi">
-<meta name="keywords" content="">
-<meta name="description" content="">
+<meta name="keywords" content="tech">
+<meta name="description" content="
 
 
-<meta property="og:description" content="">
-<meta property="og:type" content="website">
-<meta property="og:title" content="样本距离">
-<meta name="twitter:title" content="样本距离">
-<meta property="og:url" content="https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/">
-<meta property="twitter:url" content="https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/">
+在互联网公司中，A/B测试是炎症新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。">
+
+
+<meta property="og:description" content="
+
+
+在互联网公司中，A/B测试是炎症新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI10 A/B测试的陷阱">
+<meta name="twitter:title" content="AI10 A/B测试的陷阱">
+<meta property="og:url" content="https://www.aiastro.top/2019/07/ai10-a/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1/">
+<meta property="twitter:url" content="https://www.aiastro.top/2019/07/ai10-a/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1/">
 <meta property="og:site_name" content="记录科学，记录技术，记录生活。">
-<meta property="og:description" content="">
-<meta name="twitter:description" content="">
+<meta property="og:description" content="
+
+
+在互联网公司中，A/B测试是炎症新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。">
+<meta name="twitter:description" content="
+
+
+在互联网公司中，A/B测试是炎症新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。">
 <meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-07-13T10:43:49">
+  
+  
+    <meta property="article:modified_time" content="2019-07-13T10:43:49">
+  
+  
+  
+    
+      <meta property="article:section" content="category">
+    
+      <meta property="article:section" content="subcategory">
+    
+  
+  
+    
+      <meta property="article:tag" content="tag1">
+    
+      <meta property="article:tag" content="tag2">
+    
+  
 
 
 <meta name="twitter:card" content="summary">
@@ -39,16 +73,14 @@
   <meta property="twitter:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
 
 
-    <title>样本距离</title>
+    <title>AI10 A/B测试的陷阱</title>
 
     <link rel="icon" href="https://www.aiastro.top/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/index.xml">
-    
 
     
 
-    <link rel="canonical" href="https://www.aiastro.top/tags/%E6%A0%B7%E6%9C%AC%E8%B7%9D%E7%A6%BB/">
+    <link rel="canonical" href="https://www.aiastro.top/2019/07/ai10-a/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1/">
 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
@@ -68,7 +100,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://www.aiastro.top/">记录科学，记录技术，记录生活。</a>
@@ -76,7 +108,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -155,44 +187,26 @@
 </nav>
 
       
-        
 
-      
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
   
-    
-      
-        
-      
-    
+    <h1 class="post-title" itemprop="headline">
+      AI10 A/B测试的陷阱
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/">
-          AI09 余弦距离的应用
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-07-12T09:39:10&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-07-13T10:43:49&#43;08:00">
         
-  七月 12, 2019
+  七月 13, 2019
 
       </time>
     
@@ -201,16 +215,19 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://www.aiastro.top/categories/%e6%a0%b7%e6%9c%ac%e8%b7%9d%e7%a6%bb%e8%af%84%e4%bc%b0">样本距离评估</a>
+      <a class="category-link" href="https://www.aiastro.top/categories/category">category</a>, 
+    
+      <a class="category-link" href="https://www.aiastro.top/categories/subcategory">subcategory</a>
     
   
 
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <style>
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <style>
  img{
   display: block;
   margin:auto;
@@ -221,28 +238,119 @@
  }
 </style>
 
-<script type="text/javascript"
+<p><script type="text/javascript"
     src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
 </script>
+在互联网公司中，A/B测试是炎症新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。</p>
 
-<p>在模型训练过程中，在不断地评估着样本间的距离，如何评估样本距离也是定义优化目标和训练方法的基础。</p>
+<p><strong>在对模型进行过充分的离线评估之后，为什么还要进行在线A/B测试</strong></p>
 
-<p>在机器学习问题中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常使用余弦相似度来表示。余弦相似度的取值范围是$[-1,1]$，相同的两个向量之间的相似度为1.如果希望得到类似于距离的表示，将1减去余弦相似度即为余弦距离。因此，余弦距离的取值范围为$[0,2]$，相同的两个向量余弦距离为0。</p>
-      
-      <p>
-        <a href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
+<p>需要进行在线A/B测试的原因如下。
+（1）离线评估无法完全消除模型过拟合的影响，因此，得出的离线评估结果无法完全替代线上评估结果。
+（2）离线评估无法完全还原线上的工作环境。一般来讲，离线评估往往不会考虑线上环境的延迟、数据丢失、标签数据缺失等情况。因此，离线评估的结果是理想工作环境下的结果。
+（3）线上系统的某些商业指标在离线评估中无法计算。离线评估一般是针对模型本身进行评估，而与模型相关的其他指标，特别是商业指标，往往无法直接获得。比如，上线了新的推荐算法，离线评估往往关注的是ROC区县、P-R曲线等改进，而线上评估可以全面了解该推荐算法带来的用户点击率、留存时长、PV访问量等的变化。这些都要由A/B测试来进行全面的评估。</p>
+
+<p><strong>如何进行线上A/B测试</strong></p>
+
+<p>进行A/B测试的主要手段是进行用户分桶，即将用户分成实验组和对照组，对实验组的用户施以新模型，对对照组的用户施以旧模型。在分桶的过程中，要注意样本的独立性和采样方式的无偏性，确保同一个用户每次只能分到同一个桶种，在分桶过程中所选取的user_id需要是一个随机数，这样才能保证桶中的样本是无偏的。</p>
+
+<p><strong>如何划分实验组和对照组</strong></p>
+
+<p>H公司的算法工程师们最近针对系统中的“美国用户”研发了一套全新的视频推荐模型$A$，而目前正在使用的针对全体用户的推荐模型是$B$。在正式上线之前，工程师们希望通过A/B测试来验证新推荐模型的效果。下面有三种实验组和对照组的划分方法。</p>
+
+<p>（1）根据user_id（user_id完全随机生成）个位数的奇偶性将用户划分为实验组和对照组，对实验组施以推荐模型$A$，对照组施以推荐模型$B$；</p>
+
+<p>（2）将user_id个位数为奇数且为美国用户的作为实验组，其余用户为对照组；</p>
+
+<p>（3）将user_id个位数为奇数且为美国用户的作为实验组，user_id个位数为偶数的用户作为对照组。</p>
+
+<p>上述3种A/B测试的划分方法都不正确，用包含关系图来说明三种划分方法。</p>
+
+<div style="float:left; width:50%;"><img src="https://s2.ax1x.com/2019/07/13/ZhHfJI.jpg"></div>
+<div style="float:right; width:50%;"><img src="https://s2.ax1x.com/2019/07/13/ZhH5SP.jpg"></div>
+<div style="float:left; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/13/ZhHIQf.jpg"></div>
+<div style="float:right; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/13/ZhHHeg.jpg"></div>
+
+<p>方法1对应图a，没有区分是否为美国用户，实验组和对照组的实验结果均有稀释；方法2对应图b,实验组选取无误，并将其余所有用户划分为对照组，导致对照组的结果被稀释；方法3对应图c，对照组存在偏差。正确的做法是将所有美国用户根据user_id个位数划分为试验组和对照组，对应图d，分别施以模型$A$和$B$，才能够验证模型$A$的效果。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/tag1/">tag1</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/tag2/">tag2</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
   
-</article>
-
-            
-            
-
-          </section>
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/" data-tooltip="AI09 余弦距离的应用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
         
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2019 努力学习AI的Qi. All Rights Reserved
@@ -250,6 +358,66 @@
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/" data-tooltip="AI09 余弦距离的应用">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -663,6 +831,32 @@ $(document).ready(function() {
 });
 </script>
 
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.aiastro.top\/2019\/07\/ai10-a\/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1\/';
+          
+            this.page.identifier = '\/2019\/07\/ai10-a\/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'newxiaoqi';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 
