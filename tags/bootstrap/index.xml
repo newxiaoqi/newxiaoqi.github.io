@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bootstrap on 记录科学，记录技术，记录生活。</title>
+    <link>https://www.aiastro.top/tags/bootstrap/</link>
+    <description>Recent content in Bootstrap on 记录科学，记录技术，记录生活。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 14 Jul 2019 10:55:42 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aiastro.top/tags/bootstrap/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI11 模型评估的方法</title>
+      <link>https://www.aiastro.top/2019/07/ai11-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E7%9A%84%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Sun, 14 Jul 2019 10:55:42 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai11-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E7%9A%84%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+在机器学习种，我们通常把样本分为训练集和测试集，训练集用于训练模型，测试集用于评估模型。在样本划分和模型验证的过程中，存在着不同的抽样方法和验证方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

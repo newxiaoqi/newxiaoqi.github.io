@@ -6,26 +6,62 @@
     <description>Recent content in Tags on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 13 Jul 2019 10:43:49 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jul 2019 10:55:42 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>tag1</title>
-      <link>https://www.aiastro.top/tags/tag1/</link>
-      <pubDate>Sat, 13 Jul 2019 10:43:49 +0800</pubDate>
+      <title>Bootstrap</title>
+      <link>https://www.aiastro.top/tags/bootstrap/</link>
+      <pubDate>Sun, 14 Jul 2019 10:55:42 +0800</pubDate>
       
-      <guid>https://www.aiastro.top/tags/tag1/</guid>
+      <guid>https://www.aiastro.top/tags/bootstrap/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>tag2</title>
-      <link>https://www.aiastro.top/tags/tag2/</link>
+      <title>Holdout检验</title>
+      <link>https://www.aiastro.top/tags/holdout%E6%A3%80%E9%AA%8C/</link>
+      <pubDate>Sun, 14 Jul 2019 10:55:42 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/holdout%E6%A3%80%E9%AA%8C/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>交叉验证</title>
+      <link>https://www.aiastro.top/tags/%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81/</link>
+      <pubDate>Sun, 14 Jul 2019 10:55:42 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A/B测试</title>
+      <link>https://www.aiastro.top/tags/a/b%E6%B5%8B%E8%AF%95/</link>
       <pubDate>Sat, 13 Jul 2019 10:43:49 +0800</pubDate>
       
-      <guid>https://www.aiastro.top/tags/tag2/</guid>
+      <guid>https://www.aiastro.top/tags/a/b%E6%B5%8B%E8%AF%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>实验组</title>
+      <link>https://www.aiastro.top/tags/%E5%AE%9E%E9%AA%8C%E7%BB%84/</link>
+      <pubDate>Sat, 13 Jul 2019 10:43:49 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E5%AE%9E%E9%AA%8C%E7%BB%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>对照组</title>
+      <link>https://www.aiastro.top/tags/%E5%AF%B9%E7%85%A7%E7%BB%84/</link>
+      <pubDate>Sat, 13 Jul 2019 10:43:49 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E5%AF%B9%E7%85%A7%E7%BB%84/</guid>
       <description></description>
     </item>
     
