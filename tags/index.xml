@@ -6,10 +6,46 @@
     <description>Recent content in Tags on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 14 Jul 2019 10:55:42 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jul 2019 10:36:58 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>欠拟合</title>
+      <link>https://www.aiastro.top/tags/%E6%AC%A0%E6%8B%9F%E5%90%88/</link>
+      <pubDate>Mon, 15 Jul 2019 10:36:58 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E6%AC%A0%E6%8B%9F%E5%90%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>过拟合</title>
+      <link>https://www.aiastro.top/tags/%E8%BF%87%E6%8B%9F%E5%90%88/</link>
+      <pubDate>Mon, 15 Jul 2019 10:36:58 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E8%BF%87%E6%8B%9F%E5%90%88/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>调优</title>
+      <link>https://www.aiastro.top/tags/%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Mon, 15 Jul 2019 10:09:59 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E8%B0%83%E4%BC%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>超参数</title>
+      <link>https://www.aiastro.top/tags/%E8%B6%85%E5%8F%82%E6%95%B0/</link>
+      <pubDate>Mon, 15 Jul 2019 10:09:59 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/tags/%E8%B6%85%E5%8F%82%E6%95%B0/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bootstrap</title>

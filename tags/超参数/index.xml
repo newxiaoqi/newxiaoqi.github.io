@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>超参数 on 记录科学，记录技术，记录生活。</title>
+    <link>https://www.aiastro.top/tags/%E8%B6%85%E5%8F%82%E6%95%B0/</link>
+    <description>Recent content in 超参数 on 记录科学，记录技术，记录生活。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 15 Jul 2019 10:09:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aiastro.top/tags/%E8%B6%85%E5%8F%82%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI11 超参数调优</title>
+      <link>https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Mon, 15 Jul 2019 10:09:59 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+对很多算法工程师来说，超参数调优是件非常头疼的事。除了根据经验设定所谓的“含理值”之外，一般很难找到合理的方法去寻找超参数的最优取值。与此同时，超参数对于模型效果的影响又至关重要。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

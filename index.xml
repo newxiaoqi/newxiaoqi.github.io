@@ -6,10 +6,56 @@
     <description>Recent content on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 14 Jul 2019 10:55:42 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jul 2019 10:36:58 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AI12 过拟合与欠拟合</title>
+      <link>https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/</link>
+      <pubDate>Mon, 15 Jul 2019 10:36:58 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+在模型评估与调整的过程中，往往会遇到“过拟合”或“欠拟合”的情况。如何有效地识别“过拟合”和“欠拟合”现象，并有针对性地进行模型调整，是不断改进机器学习模型的关键。特别是在实际项目中，采用多种方法、从多个角度降低“过拟合”和“欠拟合”的风险是算法工程师应当具备的领域知识。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>AI11 超参数调优</title>
+      <link>https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/</link>
+      <pubDate>Mon, 15 Jul 2019 10:09:59 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+对很多算法工程师来说，超参数调优是件非常头疼的事。除了根据经验设定所谓的“含理值”之外，一般很难找到合理的方法去寻找超参数的最优取值。与此同时，超参数对于模型效果的影响又至关重要。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>AI11 模型评估的方法</title>
