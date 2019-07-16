@@ -3,26 +3,55 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/</loc>
-    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.aiastro.top/categories/</loc>
-    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.aiastro.top/post/</loc>
-    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.aiastro.top/tags/</loc>
-    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/categories/%E4%BD%9C%E4%B8%9A/</loc>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/2019/07/%E4%BD%9C%E4%B8%9A01-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86ppt%E8%87%AA%E5%AD%A6%E5%90%8E%E8%AE%BA%E6%96%87/</loc>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/</loc>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/tags/%E8%AE%BA%E6%96%87/</loc>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/tags/%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86/</loc>
+    <lastmod>2019-07-16T19:30:48+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/</loc>
+    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
   </url>
   
   <url>
@@ -33,12 +62,6 @@
   
   <url>
     <loc>https://www.aiastro.top/tags/%E6%AC%A0%E6%8B%9F%E5%90%88/</loc>
-    <lastmod>2019-07-15T10:36:58+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.aiastro.top/</loc>
     <lastmod>2019-07-15T10:36:58+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -221,13 +244,13 @@
   </url>
   
   <url>
-    <loc>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</loc>
+    <loc>https://www.aiastro.top/categories/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</loc>
     <lastmod>2019-07-09T09:51:00+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.aiastro.top/categories/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</loc>
+    <loc>https://www.aiastro.top/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/</loc>
     <lastmod>2019-07-09T09:51:00+08:00</lastmod>
     <priority>0</priority>
   </url>
