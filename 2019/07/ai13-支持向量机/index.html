@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.6 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="努力学习AI的Qi">
+<meta name="keywords" content="支持向量机">
+<meta name="description" content="
+
+
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。">
+
+
+<meta property="og:description" content="
+
+
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI13 支持向量机">
+<meta name="twitter:title" content="AI13 支持向量机">
+<meta property="og:url" content="https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+<meta property="twitter:url" content="https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+<meta property="og:site_name" content="记录科学，记录技术，记录生活。">
+<meta property="og:description" content="
+
+
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。">
+<meta name="twitter:description" content="
+
+
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-07-18T09:36:51">
+  
+  
+    <meta property="article:modified_time" content="2019-07-18T09:36:51">
+  
+  
+  
+    
+      <meta property="article:section" content="经典算法">
+    
+  
+  
+    
+      <meta property="article:tag" content="SVM">
+    
+      <meta property="article:tag" content="支持向量机">
+    
+      <meta property="article:tag" content="算法">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+  <meta property="twitter:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+
+
+    <title>AI13 支持向量机</title>
+
+    <link rel="icon" href="https://www.aiastro.top/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://www.aiastro.top/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://www.aiastro.top/">记录科学，记录技术，记录生活。</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://www.aiastro.top/#about">
+          <img class="sidebar-profile-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">努力学习AI的Qi</h4>
+        
+          <h5 class="sidebar-profile-bio">一个铁憨憨的个人博客站w(゜Д゜)w</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      AI13 支持向量机
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-07-18T09:36:51&#43;08:00">
+        
+  七月 18, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://www.aiastro.top/categories/%e7%bb%8f%e5%85%b8%e7%ae%97%e6%b3%95">经典算法</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。</p>
+
+<p><strong>1、在空间上线性可分的两类点，分别向SVM分类的超平面上做投影，这些点在超平面上的投影仍然是线性可分的吗？</strong></p>
+
+<p>线性可分的两类点，即通过一个超平面可以将两类点完全分开。</p>
+
+<p>将这两类点向绿色平面上做投影，在分类直线上得到的两类投影是否仍然线性可分？</p>
+
+<div style="float:left; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/19/ZvyMJH.jpg"></div>
+<div style="float:right; width:50%; margin-bottom:20px"><img src="https://s2.ax1x.com/2019/07/19/ZvyGOP.jpg"></div>
+
+<p>显然，在分类超平面的投影在超平面上相互间隔，并不是线性可分的。考虑一个更简单的反例，设想二维空间中只有两个样本点，每个点各属于一类的分类任务，此时SVM的分类超平面（直线）就是两个样本点连线的中垂线，两个点在分类面（直线）上的投影会落到这条直线上的同一个点，自然不是线性可分的。</p>
+
+<p>但实际上，对于任意线性可分的两组点，它们在SVM分类的超平面上的投影都是线性不可分的。</p>
+
+<p>由于SVM的分类超平面仅由支持向量决定，则可以考虑一个只含支持向量SVM模型场景，用反证法来证明。假设存在一个SVM分类超平面使所有支持向量在该超平面上的投影依然线性可分。根据简单的初等几何知识可以发现，比起之前假设的超平面最优解，其实拥有另一个更优的解法，这就与之前的假设矛盾。如图：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/07/19/ZvyBSs.jpg"></div>
+
+<p>该证明有不严谨之处，假设了仅有支持向量的情况，会不会在超平面的变换过程中支持向量发生了改变，原先的非支持向量和支持向量发生了转化呢？下面证明SVM的分类结果仅依赖于支持向量。</p>
+
+<p>考虑SVM推导中的KKT条件要求。</p>
+
+<p>$$\nabla_ωL(ω^{*},β^{*},α^{*})= ω^{*} - \sum^N_i α_i^{*}y_ix_i=0 \tag{1}$$</p>
+
+<p>其中求和下$i=1$，为$\sum_{i=1}^N$，不知为何在代码里写入$i=1$就显示不正常，只能写$i$。</p>
+
+<p>$$\nabla_βL(ω^{*},β^{*},α^{*})= -\sum^N_i α_i^{*}y_i=0 \tag{2}$$</p>
+
+<p>其中求和下$i=1$，为$\sum_{i=1}^N$，不知为何在代码里写入$i=1$就显示不正常，只能写$i$。</p>
+
+<p>$$α_i^{*}g_i(ω^{*})=0,i=1,…,N  \tag{3}$$</p>
+
+<p>$$g_i(ω^{*})≤0,i=1,…,N  \tag{4}$$</p>
+
+<p>$$α_i^{*}≥0,i=1,…,N  \tag{5}$$</p>
+
+<p>结合3和4两个条件，当$ g_i(ω^{*})&lt;0 $时，必有$α_i^{*}=0 $，将这一结果与拉格朗日对偶优化问题的公式进行比较。</p>
+
+<p>$$L(ω^{*},α^{*},β^{*})=\frac{1}{2}ω^{*2}+\sum_{i=1}^Nα_i^{*}g_i(ω^{*})  \tag{6}$$</p>
+
+<p>其中</p>
+
+<p>$$g_i(ω^{*})=-y_i(ω^{*}·x_i+β^{*})+1 \tag{7}$$</p>
+
+<p>可见，除支持向量外，其他西数均为0，因此SVM的分类结果与仅支持向量的分类结果一致，说明SVM的分类结果仅依赖于支持向量，这也是SVM拥有极高运行效率的关键之一。这证明了对于任意线性可分的两组点，它们在SVM分类的超平面上的投影都是线性不可分的。</p>
+
+<p>该问题也可以通过凸优化理论中的超平面分离定理（Separating Hyperplane Theorem,SHT）更加轻巧解决。该定理描述的是，对于不相交的两个凸集，存在一个超平面，将两个凸集分离。对于二维情况，两个凸集间距离最短两点连线的中垂线就是一个将它们分离的超平面。</p>
+
+<p>借助此定理，可以先对线性可分的两组点求各自的凸包。SVM求得的超平面就是两个凸包上距离最短的两点连线的中垂线，也就是SHT定理二维情况中所阐释的分类超平面。根据凸包的性质容易知道，凸包上的点要么是样本点，要么处于两个样本点的连线上。因此，两个凸包间距离最短的两个点可以分为三种情况：两边的点均为样本点；两边的点均在样本点的连线上；一边的点为样本点，另一边的点在样本点的连线上。从几何分析可以知道，无论哪种情况，两类点的投影均是线性不可分。</p>
+
+<p><strong>2、是否存在一组参数使SVM训练误差为0</strong></p>
+
+<p>一个使用高斯核（$K(x,z)=e^{\frac{-||x-z||^2}{γ^2}}$）训练的SVM中，试证明若给定训练集中不存在两个点在同一位置，则存在一组参数{$α_1,…,α_m,b$}以及参数γ使得该SVM的训练误差为0。</p>
+
+<p>根据SVM的原理，可以将SVM的预测公式写为</p>
+
+<p>$$f(x)=\sum_{i=1}^mα_iy^{(i)}K(x^{(i)},x)+b \tag{8}$$</p>
+
+<p>其中{$(x^{(1)},y^{(1)}),…,(x^{(m)},y^{(m)})$}为训练样本，而{$α_1,…,α_m,b$}以及高斯核参数γ为训练样本的参数。由于不存在两个点在同一位置，因此对于任意的$i≠j$，有$||x^{(i)}-x^{(j)}||≥ε$。可以对任意$i$，固定$α_i=1$以及$b=0$，只保留参数$γ$，则有</p>
+
+<p>$$f(x)=\sum_{i=1}^mα_iy^{(i)}K(x^{(i)},x)+b$$</p>
+
+<p>$$=\sum_{i=1}^my^{(i)}K(x^{(i)},x) \tag{9}$$</p>
+
+<p>$$=\sum_{i=1}^my^{(i)}e^{\frac{-||x-z||^2}{γ^2}}$$</p>
+
+<p>将任意$x{(j)}$代入式9则有</p>
+
+<p>$$f(x^{(j)})=\sum_{i=1}^my^{(i)}e^{\frac{-||x-z||^2}{γ^2}} \tag{10}$$</p>
+
+<p>$$f(x^{(j)})-y^{(j)}=\sum_{i=1,i≠j}^my^{(i)}e^{\frac{-||x-z||^2}{γ^2}} \tag{11}$$</p>
+
+<p>$$||f(x^{(j)})-y^{(j)}||≤\sum_{i=1,i≠j}^my^{(i)}e^{\frac{-||x-z||^2}{γ^2}} \tag{12}$$</p>
+
+<p>由问题得知$||f(x^{(j)})-y^{(j)}||≥ε$，取$γ=\frac{ε}{\sqrt{logm}}$，可将式(12)重写为</p>
+
+<p>$$||f(x^{(j)})-y^{(j)}||≤||\sum_{i=1,i≠j}^my^{(i)}e^{\frac{-||x-z||^2}{γ^2}}||$$</p>
+
+<p>$$≤||\sum_{i=1,i≠j}^me^{-logm}||=\frac{m-1}{m}＜1 \tag{13}$$</p>
+
+<p>所以，对于任意x^{(j)}，预测结果$f(x^{(j)})$与样本真实标签$y^{(j)}$的距离小于1。注意到，$y^{(j)}\in${
+$1,-1$},当训练样本为正例，即$y^{(j)}=1$时，预测结果$f(x^{(j)})＞0$，样本被预测为正例；而当训练样本为负例，即$y^{(j)}=-1$时，预测结果$f(x^{(j)})＜0$，样本被预测为负例。因此所有样本的类别都被正确预测，训练误差为0。</p>
+
+<p><strong>3、训练误差为0的SVM分类器一定存在吗？</strong></p>
+
+<p>虽然在第二节中找到一组参数{$α_1,…,α_m,b$}以及$γ$使得SVM的训练误差为0，但这组参数不一定是满足SVM条件的一个解。在实际训练一个不加入松弛变量的SVM模型时，是否能保证得到的SVM分类器满足训练误差为0呢？</p>
+
+<p>此问题旨在找到一组参数满足训练误差为0，且是SVM模型的一个解。</p>
+
+<p>考虑SVM模型中解的限制条件$y^{(j)}f(x^{(j)})≥1$。已经得到了一组参数使得当$y^{(j)}=1$时，$f(x^{(j)})＞0$；而当$y^{(j)}=-1$时，$f(x^{(j)})＜0$，因此$y^{(j)}·f(x^{(j)})＞0$。现在需要找到一组参数满足更强的条件，即$y^{(j)}·f(x^{(j)})≥1$。</p>
+
+<p>仍然固定$b=0$，于是预测公式$$f(x)=\sum_{i=1}^mα_iy^{(i)}K(x^{(i)},x)$$，将$y^{(j)}·f(x^{(j)})$展开，有</p>
+
+<p>$$y^{(j)}·f(x^{(j)})=y^{(j)}\sum_{i=1}^mα_iy^{(i)}K(x^{(i)},x^{(j)})$$</p>
+
+<p>$$=α_jy^{(j)}y^{(j)}K(x^{(i)},x^{(j)})+\sum_i^mα_iy^{(i)}y^{(j)}K(x^{(i)},x^{(j)})$$</p>
+
+<p>$$=α_j+\sum_i^mα_iy^{(i)}y^{(j)}K(x^{(i)},x^{(j)}) \tag{14}$$</p>
+
+<p>其中求和下$i=1$，为$\sum_{i=1,i≠j}^N$，不知为何在代码里写入$i=1$就显示不正常，只能写$i$。</p>
+
+<p>观察式(14)，可以把每个$α_j$都选择一个很大的值，同时取一个非常小的$γ$，使得核映射项$K(x^{(i)},x^{(j)})$非常小，于是$α_j$在上式中占据绝对主导地位。这样就保证对任意$j$有$y^{(j)}·f(x^{(j)})＞1$，满足SVM解的条件。因此SVM最优解也满足上述条件，同时一定使模型分类误差为0。</p>
+
+<p><strong>4、加入松弛变量的SVM的训练误差可以为0吗？</strong></p>
+
+<p>在实际应用中，如果使用SMO(Sequential Minimal Optimization)算法来训练一个加入松弛变量的线性SVM模型，并且惩罚因子$C$为任一未知常数，是否能得到训练误差为0的模型呢？</p>
+
+<p>使用SMO算法模型的线性分类器并不一定能得到训练误差为0的模型。这是由于我们的优化目标改变了，并不再是使训练误差最小。考虑带松弛变量的SVM模型优化的目标函数锁包含的两项：$C\sum_{i=1}^mζ_1$和$\frac{1}{2}||w||^2$，当我们的参数$C$选取较小的值时，后一项（正则项）将占据优化的较大比重。这样，一个带有训练误差，但是参数较小的点将成为更优的结果。一个简单的特例是，当$C$取0时，$w$也取0即可达到优化目标，但是显然此时我们的训练误差不一定能达到0。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/svm/">SVM</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">支持向量机</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/%E7%AE%97%E6%B3%95/">算法</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/%E4%BD%9C%E4%B8%9A01-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86ppt%E8%87%AA%E5%AD%A6%E5%90%8E%E8%AE%BA%E6%96%87/" data-tooltip="作业01 项目经理PPT自学后论文">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 努力学习AI的Qi. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/%E4%BD%9C%E4%B8%9A01-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86ppt%E8%87%AA%E5%AD%A6%E5%90%8E%E8%AE%BA%E6%96%87/" data-tooltip="作业01 项目经理PPT自学后论文">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+    
+    <h4 id="about-card-name">努力学习AI的Qi</h4>
+    
+      <div id="about-card-bio">一个铁憨憨的个人博客站w(゜Д゜)w</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        AI炼金术师，科学史爱好者
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        湖南，长沙
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+                <h3 class="media-heading">AI13 支持向量机</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E4%BD%9C%E4%B8%9A01-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86ppt%E8%87%AA%E5%AD%A6%E5%90%8E%E8%AE%BA%E6%96%87/">
+                <h3 class="media-heading">作业01 项目经理PPT自学后论文</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+被部门老大安排地明明白白。自学470+页项目经理PPT后，结合自身工作写的作业(假)论文。文笔有限水平一般，做过的项目不大，所以也就这么凑合着看吧，至少还是学了点东西，也不错。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/">
+                <h3 class="media-heading">AI12 过拟合与欠拟合</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在模型评估与调整的过程中，往往会遇到“过拟合”或“欠拟合”的情况。如何有效地识别“过拟合”和“欠拟合”现象，并有针对性地进行模型调整，是不断改进机器学习模型的关键。特别是在实际项目中，采用多种方法、从多个角度降低“过拟合”和“欠拟合”的风险是算法工程师应当具备的领域知识。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/">
+                <h3 class="media-heading">AI11 超参数调优</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+对很多算法工程师来说，超参数调优是件非常头疼的事。除了根据经验设定所谓的“含理值”之外，一般很难找到合理的方法去寻找超参数的最优取值。与此同时，超参数对于模型效果的影响又至关重要。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai11-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E7%9A%84%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">AI11 模型评估的方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在机器学习种，我们通常把样本分为训练集和测试集，训练集用于训练模型，测试集用于评估模型。在样本划分和模型验证的过程中，存在着不同的抽样方法和验证方法。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai10-a/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1/">
+                <h3 class="media-heading">AI10 A/B测试的陷阱</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在互联网公司中，A/B测试是验证新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/">
+                <h3 class="media-heading">AI09 余弦距离的应用</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型训练过程中，在不断地评估着样本间的距离，如何评估样本距离也是定义优化目标和训练方法的基础。</p>
+
+<p>在机器学习问题中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常使用余弦相似度来表示。余弦相似度的取值范围是$[-1,1]$，相同的两个向量之间的相似度为1.如果希望得到类似于距离的表示，将1减去余弦相似度即为余弦距离。因此，余弦距离的取值范围为$[0,2]$，相同的两个向量余弦距离为0。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+                <h3 class="media-heading">AI08 ROC曲线</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai07-%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E4%B8%8D%E8%B6%B3%E6%97%B6%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">AI07 图像数据不足时的处理方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在机器学习中，绝大部分模型都需要大量的数据进行训练和学习（包括有监督学习和无监督学习），然而在实际应用中经常会遇到训练数据不足的问题。不如图像分类，作为计算机视觉最基本的任务之一，其目标是将每副图像划分到指定类别集合中的一个或多个类别中。当训练一个图像分类模型时，如果训练样本比较少，该如何处理？</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai06-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7/">
+                <h3 class="media-heading">AI06 评估指标的局限性</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型评估过程中，分类问题、排序问题、回归问题等往往需要使用不同的指标进行评估，在诸多的评估指标中，大部分指标只能片面地反映模型的一部分性能。如果不能合理地运用评估指标，不仅不能发现模型本身的问题，而且会得出错误的结论。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         18 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://www.aiastro.top/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://www.aiastro.top/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.aiastro.top\/2019\/07\/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA\/';
+          
+            this.page.identifier = '\/2019\/07\/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'newxiaoqi';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>支持向量机 on 记录科学，记录技术，记录生活。</title>
+    <link>https://www.aiastro.top/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
+    <description>Recent content in 支持向量机 on 记录科学，记录技术，记录生活。</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 18 Jul 2019 09:36:51 +0800</lastBuildDate>
+    
+	<atom:link href="https://www.aiastro.top/tags/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AI13 支持向量机</title>
+      <link>https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</link>
+      <pubDate>Thu, 18 Jul 2019 09:36:51 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
