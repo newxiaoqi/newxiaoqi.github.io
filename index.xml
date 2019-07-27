@@ -6,10 +6,33 @@
     <description>Recent content on 记录科学，记录技术，记录生活。</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Jul 2019 09:36:51 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 27 Jul 2019 11:22:19 +0800</lastBuildDate>
     
 	<atom:link href="https://www.aiastro.top/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AI14 逻辑回归</title>
+      <link>https://www.aiastro.top/2019/07/ai14-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Sat, 27 Jul 2019 11:22:19 +0800</pubDate>
+      
+      <guid>https://www.aiastro.top/2019/07/ai14-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/</guid>
+      <description>&lt;style&gt;
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+&lt;/style&gt;
+
+&lt;p&gt;&lt;script type=&#34;text/javascript&#34;
+    src=&#34;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js&#34;&gt;
+&lt;/script&gt;
+逻辑回归(Logistic Regression)是机器学习领域最基础最常用的模型，逻辑回归的原理推导以及扩展应用几乎是算法工程师的必备技能。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>AI13 支持向量机</title>
