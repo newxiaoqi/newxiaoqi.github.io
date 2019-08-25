@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.55.6 with theme Tranquilpeak 0.4.3-SNAPSHOT">
+<meta name="author" content="努力学习AI的Qi">
+<meta name="keywords" content="决策树">
+<meta name="description" content="
+
+
+
+决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。">
+
+
+<meta property="og:description" content="
+
+
+
+决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI15 决策树">
+<meta name="twitter:title" content="AI15 决策树">
+<meta property="og:url" content="https://www.aiastro.top/2019/08/ai15-%E5%86%B3%E7%AD%96%E6%A0%91/">
+<meta property="twitter:url" content="https://www.aiastro.top/2019/08/ai15-%E5%86%B3%E7%AD%96%E6%A0%91/">
+<meta property="og:site_name" content="记录科学，记录技术，记录生活。">
+<meta property="og:description" content="
+
+
+
+决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。">
+<meta name="twitter:description" content="
+
+
+
+决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。">
+<meta property="og:locale" content="zh-cn">
+
+  
+    <meta property="article:published_time" content="2019-08-23T09:32:07">
+  
+  
+    <meta property="article:modified_time" content="2019-08-23T09:32:07">
+  
+  
+  
+    
+      <meta property="article:section" content="经典算法">
+    
+  
+  
+    
+      <meta property="article:tag" content="决策树">
+    
+      <meta property="article:tag" content="ID3">
+    
+      <meta property="article:tag" content="C4.5">
+    
+      <meta property="article:tag" content="CART">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+  <meta property="twitter:image" content="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg">
+
+
+    <title>AI15 决策树</title>
+
+    <link rel="icon" href="https://www.aiastro.top/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://www.aiastro.top/2019/08/ai15-%E5%86%B3%E7%AD%96%E6%A0%91/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://www.aiastro.top/css/style-nnm2spxvve8onlujjlegkkytaehyadd4ksxc1hyzzq9a2wvtrgbljqyulomn.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://www.aiastro.top/">记录科学，记录技术，记录生活。</a>
+  </div>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://www.aiastro.top/#about">
+          <img class="sidebar-profile-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">努力学习AI的Qi</h4>
+        
+          <h5 class="sidebar-profile-bio">一个铁憨憨的个人博客站w(゜Д゜)w</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://www.aiastro.top/#about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">关于</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      AI15 决策树
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-08-23T09:32:07&#43;08:00">
+        
+  八月 23, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://www.aiastro.top/categories/%e7%bb%8f%e5%85%b8%e7%ae%97%e6%b3%95">经典算法</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。</p>
+
+<p>一般而言，决策树的生成包含了特征选择、树的构造、树的剪枝三个过程。在第一个问题中对几个常用决策树进行对比，在第二个问题中探讨决策树不同剪枝方法之间的区别与联系。</p>
+
+<p><strong>1、决策树有哪些常用的启发函数？</strong></p>
+
+<p>决策树的目标是从一组样本数据中，根据不同的特征和属性，建立一棵树形的分类结构。我们既希望它能拟合训练数据，达到良好的分类效果，同时又希望控制其复杂度，使得模型具有一定的泛化能力。对于一个特定的问题，决策树的选择可能有很多种。例如在相亲中，对对方要求是月薪一定过万还是可以不过万就是一个简单的决策树。</p>
+
+<p>从若干不同的决策树中选取最优的决策树是一个NP完全问题，在实际中通常会采用启发式学习的方法去构建一棵满足启发式条件的决策树。常用的决策树算法有：ID3、C4.5、CART，它们构建树所用的启发式函数是什么？除了构建准则之外，它们之间的区别与联系是什么？</p>
+
+<p>首先看一下这几种决策树构造时使用的准则。</p>
+
+<p><strong>ID3————最大信息增益</strong></p>
+
+<p>对于样本集合$D$，类别数为$K$，数据集$D$的经验熵表示为</p>
+
+<p>$$H(D)=-\sum_{k=1}^K\frac{|C_k|}{|D|}log_2\frac{|C_k|}{|D|}$$</p>
+
+<p>其中$C_k$是样本集合$D$中属于第$k$类的样本子集，$|C_k|$表示该子集的元素个数，$|D|$表示样本集合的元素个数。</p>
+
+<p>然后计算某个特征$A$对于数据集$D$的经验条件熵$H(D|A)$为：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/23/mBB5jA.jpg"></div>
+
+<p>其中，$D_i$表示$D$中特征$A$取第$i$个值的样本子集，</p>
+
+<p>$D_{ik}$表示$D_i$中属于第$k$类的样本子集。</p>
+
+<p>于是信息增益$g(D,A)$可以表示为二者之差，可得</p>
+
+<p>$$g(D,A)=H(D)-H(D|A)$$</p>
+
+<p>这里用一个例子来说明一下计算过程。</p>
+
+<p>有5个单身狗追求一个姑娘，年龄有两个属性(老，年轻)，长相有三个属性（帅，一般，丑），工资有三个属性（高，中等，低），会写代码有两个属性（会，不会），最终分类结果有两类（见，不见）。根据姑娘主观意愿得到下表：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/23/mB6fOJ.jpg"></div>
+
+<p>在这个问题中</p>
+
+<p>$$H(D)=-\frac{3}{5}log_2\frac{3}{5}-\frac{2}{5}log_2\frac{2}{5}=0.971$$</p>
+
+<p>根据计算某个特征$A$对于数据集$D$的经验条件熵$H(D|A)$公式可计算出4个分支结点的信息熵为:</p>
+
+<p>$$
+H(D|年龄)=\frac{1}{5}H(老)+\frac{4}{5}H(年轻)
+=\frac{1}{5}(-0)+\frac{4}{5}\left(-\frac{2}{4}log_2\frac{2}{4}-\frac{2}{4}log_2\frac{2}{4}\right)=0.8
+$$</p>
+
+<p>$$
+H(D|长相)=\frac{1}{5}H(帅)+\frac{3}{5}H(一般)+\frac{1}{5}H(丑)=0+\frac{3}{5}\left(-\frac{2}{3}log_2\frac{2}{3}-\frac{1}{3}log_2\frac{1}{3}\right)+0=0.551
+$$</p>
+
+<p>$$
+H(D|工资)=\frac{3}{5}H(高)+\frac{1}{5}H(中等)+\frac{1}{5}H(低)=\frac{3}{5}\left(-\frac{2}{3}log_2\frac{2}{3}-\frac{1}{3}log_2\frac{1}{3}\right)+0+0=0.551
+$$</p>
+
+<p>$$
+H(D|写代码)=\frac{3}{5}H(不会)+\frac{2}{5}H(会)=\frac{3}{5}(0)+\frac{2}{5}(0)=0
+$$</p>
+
+<p>根据$g(D,A)$可计算出各个特征的信息增益为：</p>
+
+<p>$$g(D,年龄)=0.171$$</p>
+
+<p>$$g(D,长相)=0.42$$</p>
+
+<p>$$g(D,工资)=0.42$$</p>
+
+<p>$$g(D,写代码)=0.971$$</p>
+
+<p>显然，对于特征“写代码”的信息增益最大，所有的样本根据此特征可以直接被分到叶结点（即见或不见）中，完成决策树生长。当然，在实际应用中，决策树往往不能通过一个特征就完成构建，需要在经验熵非0的类别中继续生长。</p>
+
+<p><strong>C4.5————最大信息增益比</strong></p>
+
+<p>特征$A$对于数据集$D$的信息增益比定义为</p>
+
+<p>$$g_R(D,A)=\frac{g(D,A)}{H_A(D)}$$</p>
+
+<p>其中</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/23/mD3ijO.jpg"></div>
+
+<p>称为数据集$D$关于$A$的取值熵。针对上述问题，可以根据上市求出数据集关于每个特征的取值熵为：</p>
+
+<p>$$H_{年龄}(D)=-\frac{1}{5}log_2\frac{1}{5}-\frac{4}{5}log_2\frac{4}{5}=0.722$$</p>
+
+<p>$$H_{长相}(D)=-\frac{1}{5}log_2\frac{1}{5}-\frac{3}{5}log_2\frac{3}{5}-\frac{1}{5}log_2\frac{1}{5}=1.371$$</p>
+
+<p>$$H_{工资}(D)=-\frac{3}{5}log_2\frac{3}{5}-\frac{1}{5}log_2\frac{1}{5}-\frac{1}{5}log_2\frac{1}{5}=1.371$$</p>
+
+<p>$$H_{写代码}(D)=-\frac{3}{5}log_2\frac{3}{5}-\frac{2}{5}log_2\frac{2}{5}=0.971$$</p>
+
+<p>根据特征$A$对于数据集$D$的信息增益比公式可计算出各个特征的信息增益比为：</p>
+
+<p>$$g_R(D,年龄)=0.236$$</p>
+
+<p>$$g_R(D,长相)=0.402$$</p>
+
+<p>$$g_R(D,工资)=0.402$$</p>
+
+<p>$$g_R(D,写代码)=1$$</p>
+
+<p>信息增益比最大的仍是特征“写代码”，但通过信息增益比，特征“年龄”对应的指标上升了，而特征“长相”和特征“工资”却有所下降。</p>
+
+<p><strong>CART————最大基尼系数(Gini)</strong></p>
+
+<p>Gini描述的是数据的纯度，与信息熵含义类似。</p>
+
+<p>$$Gini(D)=1-\sum_{k=1}^n\left(\frac{|C_k|}{|D|}\right)^2$$</p>
+
+<p>CART在每一次迭代中选择基尼质数最小的特征及其对应的切分点进行分类。但与ID3、C4.5不同的是，CART是一棵二叉树，采用二元切割法，每一步将数据按特征$A$的取值切成两份，分别进入左右子树。特征$A$的Gini指数定义为：</p>
+
+<p>$$Gini(D|A)=\sum_{i=1}^n\frac{|D_i|}{|D|}Gini(D_i)$$</p>
+
+<p>继续之前的例子，应用CART分类准则，根据上式可计算出各个特征的Gini指数为：</p>
+
+<p>$$Gini(D|年龄=老)=0.4$$</p>
+
+<p>$$Gini(D|年龄=年轻)=0.4$$</p>
+
+<p>$$Gini(D|长相=帅)=0.4$$</p>
+
+<p>$$Gini(D|长相=丑)=0.4$$</p>
+
+<p>$$Gini(D|写代码=会)=0$$</p>
+
+<p>$$Gini(D|写代码=不会)=0$$</p>
+
+<p>$$Gini(D|工资=高)=0.47$$</p>
+
+<p>$$Gini(D|工资=中等)=0.3$$</p>
+
+<p>$$Gini(D|工资=低)=0.4$$</p>
+
+<p>在“年龄”“长相”“工资”“写代码”这四个特征中，可以很快发现特征“写代码”的Gini指数最小，为$0$，因此选择特征“写代码”作为最优特征，“写代码=会”为最优切分点。按照这种切分，从根结点会直接产生两个叶结点，基尼质数降为0，完成决策树生长。</p>
+
+<p>通过对比三种决策树的构造准则，以及在同一个例子上的表现，可以看出这三者之间的差别。</p>
+
+<p>首先，ID3采用信息增益作为评价标准，除了“会写代码”这个逆天特征外，会倾向于取值较多的特征。因为信息增益反映的是给定条件以后不确定性减少的程度，特征取值越多就意味着确定性更高，也就是条件熵越小，信息增益越大。这一点在实际应用中是个缺陷。比如有一个“DNA”特征，那么每个人的DNA都不同，如果ID3按照“DNA”特征进行划分那一定就是最优的（条件熵为$0$），但这种分类的泛化能力是非常弱的。因此C4.5实际上是对ID3进行优化，通过引入信息增益比，一定程度上对取值比较多的特征进行惩罚，避免ID3出现过拟合的特性，提升决策树的泛化能力。</p>
+
+<p>其次，从样本类型的角度，ID3只能处理离散型变量，而C4.5和CART都可以处理连续型变量。C4.5处理连续型变量时，通过对数据排列之后找到类别不同的分割线作为切分点，根据切分点把连续属性转换为布尔型，从而将连续型变量转换多个取值区间的离散型变量。而对于CART，由于其构建时每次都会对特征进行二值划分，因此可以很好地适用于连续性变量。</p>
+
+<p>从应用角度，ID3和C4.5只能用于分类任务，而CART（Classification and Regression Tree,分类回归树）从名字就可以看出其不仅可以用于分类，也可以用于回归任务（回归树使用最小平方误差准则）。</p>
+
+<p>此外，从实现细节、优化过程等角度，这三种决策树还有一些不同。比如，ID3对样本特征缺失值比较敏感，而C4.5和CART可以对缺失值进行不同方式的处理；ID3和C4.5可以在每个结点上产生出多叉分支，且每个特征在层级之间不会复用，而CART每个结点只会产生两个分支，因此最后会形成一棵二叉树，且每个特征可以被重复使用；ID3和C4.5通过剪枝来权衡树的准确性和泛化能力，而CART直接利用全部数据发现所有可能的树结构进行对比。</p>
+
+<p>至此，从构造、应用、实现等角度对比了ID3、C4.5、CART这三种经典的决策树模型。</p>
+
+<p><strong>2、如何对决策树进行剪枝？</strong></p>
+
+<p>一棵完全生长的决策树会面临一个很严重的问题，即过拟合。假设真需要考虑DNA特征，由于每个人的DNA都不同，完全生长的决策树所对应的每个叶结点种只会包含一个样本，这就导致决策树是过拟合的。用它进行预测时，在测试集上的效果会很差。因此需要对决策树进行剪枝，剪掉一些枝叶，提升模型的泛化能力。</p>
+
+<p>决策树的剪枝通常有两种方法，预剪枝（Pre-Pruning）和后剪枝（Post-Pruning）。那么这两种方法是如何进行的？它们又各有什么优缺点？</p>
+
+<p>预剪枝，即在生成决策树的过程中提前停止树的增长。而后剪枝，是在已生成的过拟合决策树上进行剪枝，得到简化版的剪枝决策树。</p>
+
+<p><strong>预剪枝</strong></p>
+
+<p>预剪枝的核心思想是在树种结点进行扩展之前，先计算当前的划分是否能带来模型泛化能力的提升，如果不能，则不再继续生长子树。此时可能存在不同类别的样本同事存于结点中，按照多数投票的原则判断该结点所属类别。预剪枝对于何时停止决策树的生长以下几种方法。</p>
+
+<p>（1）当树到达一定深度的时候，停止树的生长。</p>
+
+<p>（2）当到达当前结点的样本数量小于某个阈值的时候，停止树的生长。</p>
+
+<p>（3）计算每次分裂对测试集的准确度提升，当小于某个阈值的时候，不再继续扩展。</p>
+
+<p>预剪枝具有思想直接、算法简单、效率高等特点，适合解决大规模问题。但如何准确地估计何时停止树的生长（即上述方法中的深度或阈值），针对不同问题会有很大差别，需要一定经验判断。且预剪枝存在一定局限性，有欠拟合的奉献，虽然当前的划分会导致测试集准确率降低，但在之后的划分中，准确率可能会有显著提升。</p>
+
+<p><strong>后剪枝</strong></p>
+
+<p>后剪枝的核心思想是让算法生成一棵完全生长的决策树，然后从最底层向上计算是否剪枝。剪枝过程将子树删除，用一个叶子结点替代，该结点的类别同样按照多数投票的原则进行判断。同样地，后剪枝也可以通过在测试集上的准确率进行判断，如果剪枝过后准确率有所提升，则进行剪枝。相比于预剪枝，后剪枝方法通常可以得到泛化能力更强的决策树，但时间开销会更大。</p>
+
+<p>常见的后剪枝方法包括错误率降低剪枝（Reduced Error Pruning,REP）、悲观剪枝（Pessimistic Error Pruning,PEP）、代价复杂度剪枝（Cost Complexity Pruning,CCP）、最小误差剪枝（Minimum Error Pruning,MEP）、CVP（Critical Value Pruning）、OPP（Optimal Pruning）等方法，这些剪枝方法各有利弊，关注不同的优化角度。</p>
+
+<p>这里引用著名CART剪枝方法CCP的介绍。</p>
+
+<p>代价复杂度剪枝主要包含一下两个步骤。</p>
+
+<p>（1）从完整决策树$T_0$开始，生成一个子树序列{$T_0$,$T_1$,$T_2$,$…$,$T_n$}。</p>
+
+<p>其中$T_{i+1}$由$T_i$生成，$T_n$为树的根节点。</p>
+
+<p>（2）在子树序列中，根据真实误差选择最佳的决策树。</p>
+
+<p>步骤（1）从$T_0$开始，裁剪$T<em>i$中关于训练数据集合误差增加最小的分支以得到$T</em>{i+1}$。</p>
+
+<p>具体的，当一棵树$T$在结点$t$处剪枝时，它的误差增加可以用$R(t)-R(T_t)$表示，其中$R(t)$表示进行剪枝之后的该结点误差，$R(T_t)$表示未进行剪枝时子树$T_t$的误差。考虑到树的复杂性因素，我们用$|L(T_t)|$表示子树$T_t$的叶子结点个数，则树在结点t处剪枝后的误差增加率为：</p>
+
+<p>$$α=\frac{R(t)-R(T_t)}{|L(T_t)|-1}$$</p>
+
+<p>在得到$T_i$后，我们每步选择$α$最小的结点进行相应剪枝。</p>
+
+<p>用一个例子说明生成子树序列的方法。假设把场景问题扩展一下，女孩需要对80个人进行见或者不见的分类。假设根据某个规则，已经得到了一棵CART决策树$T_0$。如图：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/25/mgPUzQ.jpg"></div>
+
+<div align=center>初始决策树$T_0$</div>
+
+<p>此时共有5个内部结点可供考虑，其中</p>
+
+<p>$$α(t_0)=\frac{25-5}{6-1}=4$$</p>
+
+<p>$$α(t_1)=\frac{10-(1+2+0+0)}{4-1}=2.33$$</p>
+
+<p>$$α(t_2)=\frac{5-(1+1)}{2-1}=3$$</p>
+
+<p>$$α(t_3)=\frac{4-(1+2)}{2-1}=1$$</p>
+
+<p>$$α(t_4)=\frac{4-1}{2-1}=4$$</p>
+
+<p>可见$α(t_3)$最小，因此对$t_3$进行剪枝，得到新的子树$T_1$,如图：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/25/mgFjat.jpg"></div>
+
+<div align=center>对初始决策时$T_0$的$t_3$结点剪枝得到新的子树$T_1$</div>
+
+<p>而后继续计算所有结点对应的误差增加率，分别为$α(t_1)=3$，$α(t_2)=3$，$α(t_4)=4$。因此对$t_1$进行剪枝，得到$T_2$,如图：</p>
+
+<div style="margin-top:20px" align=center><img src="https://s2.ax1x.com/2019/08/25/mgeXZQ.jpg"></div>
+
+<div align=center>对$T_1$中$t_1$结点剪枝得到新的子树$T_2$</div>
+
+<p>在步骤（2）种，需要从子树序列中选出真实误差最小的决策树。CCP给出了两种常用的方法：一种是基于独立剪枝数据集，该方法与REP类似，但由于其只能从子树序列{$T_0$,$T_1$,$T_2$,…,$T_n$}中选择最佳决策树，而非像REP能在所有可能的子树种寻找最优解，因此性能上会有一定不足。另一种是基于$k$折交叉验证，将数据集分成$k$份，前$k-1$份用于生成决策树，最后一份用于选择最优的剪枝树。重复进行N次，再从这N个子树种选择最优的子树。</p>
+
+<p>代价复杂度剪枝使用交叉验证策略时，不需要测试数据集，精度与REP差不多，但形成的树复杂度小。而从算法复杂度角度，由于生成子树序列的时间复杂度与原始决策树的非叶结点个数呈二次关系，导致算法相比REP、PEP、MEP等线性复杂度的后剪枝方法的运行时间开销更大。</p>
+
+<p>剪枝过程在决策树模型中占据着极其重要的地位。有很多研究表明，剪枝比树的生成过程更关键。对于不同划分标准生成的过拟合决策树，在经过剪枝之后都能保留最重要的属性划分，因此最终的性能差距不大。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/%E5%86%B3%E7%AD%96%E6%A0%91/">决策树</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/id3/">ID3</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/c4.5/">C4.5</a>
+
+  <a class="tag tag--primary tag--small" href="https://www.aiastro.top/tags/cart/">CART</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai14-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" data-tooltip="AI14 逻辑回归">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 努力学习AI的Qi. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://www.aiastro.top/2019/07/ai14-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" data-tooltip="AI14 逻辑回归">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://s2.ax1x.com/2019/07/05/ZaUr6J.jpg" alt="作者的图片" />
+    
+    <h4 id="about-card-name">努力学习AI的Qi</h4>
+    
+      <div id="about-card-bio">一个铁憨憨的个人博客站w(゜Д゜)w</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        AI炼金术师，科学史爱好者
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        湖南，长沙
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/08/ai15-%E5%86%B3%E7%AD%96%E6%A0%91/">
+                <h3 class="media-heading">AI15 决策树</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Aug 8, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>决策树是一种自上而下，对样本数据进行树形分类的过程，由结点和有向边组成。结点分为内部结点和叶结点，其中每个内部结点表示一个特征或属性，叶结点表示类别。从顶部根结点开始，所有样本聚在一起。经过根结点的划分，样本被分到不同的子结点中。再根据子结点的特征进一步划分，直至所有样本都被归到某一个类别（即叶结点）中。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai14-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/">
+                <h3 class="media-heading">AI14 逻辑回归</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+逻辑回归(Logistic Regression)是机器学习领域最基础最常用的模型，逻辑回归的原理推导以及扩展应用几乎是算法工程师的必备技能。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai13-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
+                <h3 class="media-heading">AI13 支持向量机</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+支持向量机（Support Vector Machine,SVM）是众多监督学习方法中十分出色的一种，SVM涵盖了各个方面的知识。第一节为SVM模型推导的基础知识，第二~第四节则侧重对核函数（Kernel Function）的理解。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/%E4%BD%9C%E4%B8%9A01-%E9%A1%B9%E7%9B%AE%E7%BB%8F%E7%90%86ppt%E8%87%AA%E5%AD%A6%E5%90%8E%E8%AE%BA%E6%96%87/">
+                <h3 class="media-heading">作业01 项目经理PPT自学后论文</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><p><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+被部门老大安排地明明白白。自学470+页项目经理PPT后，结合自身工作写的作业(假)论文。文笔有限水平一般，做过的项目不大，所以也就这么凑合着看吧，至少还是学了点东西，也不错。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai12-%E8%BF%87%E6%8B%9F%E5%90%88%E4%B8%8E%E6%AC%A0%E6%8B%9F%E5%90%88/">
+                <h3 class="media-heading">AI12 过拟合与欠拟合</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在模型评估与调整的过程中，往往会遇到“过拟合”或“欠拟合”的情况。如何有效地识别“过拟合”和“欠拟合”现象，并有针对性地进行模型调整，是不断改进机器学习模型的关键。特别是在实际项目中，采用多种方法、从多个角度降低“过拟合”和“欠拟合”的风险是算法工程师应当具备的领域知识。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai11-%E8%B6%85%E5%8F%82%E6%95%B0%E8%B0%83%E4%BC%98/">
+                <h3 class="media-heading">AI11 超参数调优</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+对很多算法工程师来说，超参数调优是件非常头疼的事。除了根据经验设定所谓的“含理值”之外，一般很难找到合理的方法去寻找超参数的最优取值。与此同时，超参数对于模型效果的影响又至关重要。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai11-%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0%E7%9A%84%E6%96%B9%E6%B3%95/">
+                <h3 class="media-heading">AI11 模型评估的方法</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在机器学习种，我们通常把样本分为训练集和测试集，训练集用于训练模型，测试集用于评估模型。在样本划分和模型验证的过程中，存在着不同的抽样方法和验证方法。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai10-a/b%E6%B5%8B%E8%AF%95%E7%9A%84%E9%99%B7%E9%98%B1/">
+                <h3 class="media-heading">AI10 A/B测试的陷阱</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+在互联网公司中，A/B测试是验证新模块、新功能、新产品是否有效，新算法、新模型的效果是否有提升，新设计是否受到用户欢迎，新更改是否影响用户体验的主要测试方法。在机器学习领域中，A/B测试是验证模型最终效果的主要手段。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai09-%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB%E7%9A%84%E5%BA%94%E7%94%A8/">
+                <h3 class="media-heading">AI09 余弦距离的应用</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+
+<p>在模型训练过程中，在不断地评估着样本间的距离，如何评估样本距离也是定义优化目标和训练方法的基础。</p>
+
+<p>在机器学习问题中，通常将特征表示为向量的形式，所以在分析两个特征向量之间的相似性时，常使用余弦相似度来表示。余弦相似度的取值范围是$[-1,1]$，相同的两个向量之间的相似度为1.如果希望得到类似于距离的表示，将1减去余弦相似度即为余弦距离。因此，余弦距离的取值范围为$[0,2]$，相同的两个向量余弦距离为0。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://www.aiastro.top/2019/07/ai08-roc%E6%9B%B2%E7%BA%BF/">
+                <h3 class="media-heading">AI08 ROC曲线</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"><style>
+ img{
+  display: block;
+  margin:auto;
+  margin-top: 20px;
+ }
+ p{
+  text-indent: 33px;;
+ }
+</style>
+
+<p><script type="text/javascript"
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,https://vincenttam.github.io/javascripts/MathJaxLocal.js">
+</script>
+二值分类器（Binary Classifier）是机器学习领域中最常见也是应用最广泛的分类器。评价二值分类器的指标很多，比如precision、recall、F1 score、P-R曲线等。但这些指标或多或少只能反映模型在某一方面的性能。相比而言，ROC曲线则有很多优点，经常作为评估二值分类器最重要的指标之一。</p></div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         20 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://www.aiastro.top/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://www.aiastro.top/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/www.aiastro.top\/2019\/08\/ai15-%E5%86%B3%E7%AD%96%E6%A0%91\/';
+          
+            this.page.identifier = '\/2019\/08\/ai15-%E5%86%B3%E7%AD%96%E6%A0%91\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'newxiaoqi';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
